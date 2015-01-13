@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>Penrose canvas</title>
+	<script src="penrose.js"></script>
+<script src="math.min.js"></script>
+<script>
+window.onload = function(){
+	elemento = document.getElementById('micanvas');
+	if (elemento && elemento.getContext) {
+		ctx = elemento.getContext('2d');}
+		triangles= [];
+        triangles2=[];
+		goldenRatio = (1 + math.sqrt(5)) / 2;
+		numerodetriangulos=10;
+		CreateWheel();
+        PaintTriangles(triangles);
+		subdivisions=1;
+		k=0;
+		while (k != subdivisions) {
+			subdivide(triangles);
+            triangles=triangles2;
+			k++;
+		}
+		PaintTriangles(triangles);
+}
+</script>
+</head>
+
+<body>
+
+<canvas id="micanvas" width="1000" height="1000">
+Este texto se muestra para los navegadores no compatibles con canvas.
+Por favor, utiliza Firefox, Chrome, Safari u Opera.
+</canvas>
+
+</body>
+</html>
