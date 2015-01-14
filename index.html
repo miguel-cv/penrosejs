@@ -14,14 +14,16 @@ window.onload = function(){
 		numerodetriangulos=10;
 		CreateWheel();
         PaintTriangles(triangles);
-		subdivisions=1;
+		subdivisions=8;
 		k=0;
 		while (k != subdivisions) {
+            console.log('k es:',k);
 			subdivide(triangles);
             triangles=triangles2;
-			k++;
+			k=k+1;
 		}
 		PaintTriangles(triangles);
+        PaintLines();
 }
 </script>
 </head>

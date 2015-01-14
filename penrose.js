@@ -20,15 +20,15 @@ console.log(d.toPolar());
  * 
  */
 function CreateWheel() {
-	for	(i = 0; i < numerodetriangulos; i++) {
+	for	(i = 0; i != numerodetriangulos; i++) {
 		A = math.complex(0, 0);
 		B = math.complex(0, 0);
 		C = math.complex(0, 0);
 		color = 0;
-		B.re = Math.cos(((2 * i - 1) * math.pi) / 10);
-		B.im = Math.sin(((2 * i - 1) * math.pi) / 10);
-		C.re = Math.cos(((2 * i+  1) * math.pi) / 10);
-		C.im = Math.sin(((2 * i + 1) * math.pi) / 10);
+		B.re = Math.cos(((2 * i + 1) * math.pi) / 10);
+		B.im = Math.sin(((2 * i + 1) * math.pi) / 10);
+		C.re = Math.cos(((2 * i - 1) * math.pi) / 10);
+		C.im = Math.sin(((2 * i - 1) * math.pi) / 10);
 		if ( i % 2 === 0) {
 			T = B;
 			B = C;
@@ -42,7 +42,7 @@ function CreateWheel() {
 function PaintTriangles(arrayoftriangles) {
 	console.log('En painttriangles');
 	for	(i = 0; i < arrayoftriangles.length; i++) {
-		console.log('Iteracion:',i)
+		//console.log('Iteracion:',i)
 		x1=translatex(arrayoftriangles[i][1].re);
 		y1=translatey(arrayoftriangles[i][1].im);
 		ctx.beginPath();
@@ -53,15 +53,15 @@ function PaintTriangles(arrayoftriangles) {
 		}
 		ctx.lineWidth="5";
 		ctx.strokeStyle="green";
-		console.log('1-',x1,'-',y1);
+		//console.log('1-',x1,'-',y1);
 		ctx.moveTo(x1,y1);
 		x1=translatex(arrayoftriangles[i][2].re);
 		y1=translatey(arrayoftriangles[i][2].im);
-		console.log('2-',x1,y1);
+		//console.log('2-',x1,y1);
 		ctx.lineTo(x1,y1);
 		x1=translatex(arrayoftriangles[i][3].re);
 		y1=translatey(arrayoftriangles[i][3].im);
-		console.log('3-',x1,y1);
+		//console.log('3-',x1,y1);
 		ctx.lineTo(x1,y1);
 		ctx.closePath();
 		ctx.stroke();
@@ -69,27 +69,23 @@ function PaintTriangles(arrayoftriangles) {
 	}
 }
 
-function translatex (x) {return ((x+1)*(500-1))/2 ; } 
+function translatex (x) {return (x+1)*(500-1)/2 ; } 
 
-function translatey (y) {return ((500-1)-(y+1)*(500-1))/2+255;}
+function translatey (y) {return (500-1)-(y+1)*(500-1)/2;}
 
 function subdivide (arrayoftriangles) {
 	console.log('En subdivide')
 	triangles2=[];
     counter=0;
-	for	(i = 0; i < arrayoftriangles.length-1; i++); {
-        console.log('i es',i);
+	for	(i = 0; i < arrayoftriangles.length; i++) {
 		A=math.complex(arrayoftriangles[i][1]); 
 		B=math.complex(arrayoftriangles[i][2]);
 		C=math.complex(arrayoftriangles[i][3]);
-        console.log('Después de asignar,i es',i);
 		if (arrayoftriangles[i][0] === 0) {
 			P=math.complex(0,0);
-			console.log('P es ',P);
 			//P=math.add(A,(math.substract(B,A)))/goldenRatio;
-			P=math.add(B,(-A));
-			console.log('P es ',P);
 			P=math.add(P,A);
+            P=math.subtract(B,A);
 			P=math.divide(P,goldenRatio);
 			triangles2[counter]=[0,C,P,B];
             counter=counter+1;
@@ -98,11 +94,17 @@ function subdivide (arrayoftriangles) {
 			Q=math.complex(0,0);
 			R=math.complex(0,0);
 			//Q=(B+(A-B))/goldenRatio;
-			Q=math.substract(A-B);
+            console.log('------------');
+            console.log(A,B,C);
+			//Q=math.substract(A,B);
+            Q.re=A.re-B.re;
+            Q.im=A.im-B.im;
 			Q=math.add(Q,B);
 			Q=math.divide(Q,goldenRatio);
 			//R=(B+(C-B))/goldenRatio;
-			R=C-B;
+			//R=math.substract(C,B);
+            R.re=C.re-B.re;
+            R.im=C.im-B.im;
 			R=math.add(R,B);
 			R=math.divide(R,goldenRatio);
             counter=counter+1;
@@ -116,6 +118,20 @@ function subdivide (arrayoftriangles) {
 	console.log('Result:',triangles2);
 return;
 
-
 }
 
+function PaintLines() {
+    ctx.strokeStyle = 'black';
+    for	(i = 0; i < triangles.length; i++) {
+        x1=translatex(triangles[i][3].re);
+		y1=translatey(triangles[i][3].im);
+        ctx.moveTo(x1,y1);
+        x1=translatex(triangles[i][1].re);
+		y1=translatey(triangles[i][1].im);
+        ctx.lineTo(x1,y1);
+        x1=translatex(triangles[i][2].re);
+		y1=translatey(triangles[i][2].im);
+        ctx.lineTo(x1,y1);
+        ctx.stroke();
+    }
+}
