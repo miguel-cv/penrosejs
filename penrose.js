@@ -1,11 +1,3 @@
-
-/*function drawing() {
-		ctx.fillRect(0, 0, 150, 100);
-			ctx.fillStyle = '#cc0000';
-			ctx.fillRect(10, 10, 100, 70);      
-
-*/
-
 /*
  * 
  * // create a complex number from polar coordinates
@@ -19,119 +11,126 @@ console.log(d.toPolar());
  * 
  * 
  */
+
 function CreateWheel() {
-	for	(i = 0; i != numerodetriangulos; i++) {
-		A = math.complex(0, 0);
-		B = math.complex(0, 0);
-		C = math.complex(0, 0);
-		color = 0;
-		B.re = Math.cos(((2 * i + 1) * math.pi) / 10);
-		B.im = Math.sin(((2 * i + 1) * math.pi) / 10);
-		C.re = Math.cos(((2 * i - 1) * math.pi) / 10);
-		C.im = Math.sin(((2 * i - 1) * math.pi) / 10);
-		if ( i % 2 === 0) {
+    var i = 0;
+	for	(i = 0; i !== numerodetriangulos; i++) {
+		var A = math.complex(0, 0);
+		var B = math.complex(0, 0);
+		var C = math.complex(0, 0);
+		var color = 0;
+		B.re = Math.cos(((2 * i - 1) * math.pi) / 10);
+		B.im = Math.sin(((2 * i - 1) * math.pi) / 10);
+		C.re = Math.cos(((2 * i + 1) * math.pi) / 10);
+		C.im = Math.sin(((2 * i + 1) * math.pi) / 10);
+		if (i % 2 === 0) {
+            var T = math.complex(0, 0);
 			T = B;
 			B = C;
-			C = T;    
+			C = T;
 		}
-		triangles[i]=[color,A,B,C];
-		console.log(triangles[i]);
+		triangles[i] = [color, A, B, C];
+		//console.log(i,'-',triangles[i]);
 	}
 }
+function translatex(x) { return ((x + 1) * (1000 - 1) / 2); } //500=canvas/2
+
+function translatey(y) {return (1000 - 1) - (y + 1) * (1000 - 1) / 2; }
 
 function PaintTriangles(arrayoftriangles) {
 	console.log('En painttriangles');
-	for	(i = 0; i < arrayoftriangles.length; i++) {
-		//console.log('Iteracion:',i)
-		x1=translatex(arrayoftriangles[i][1].re);
-		y1=translatey(arrayoftriangles[i][1].im);
-		ctx.beginPath();
-        if (arrayoftriangles[i][0] == 0) {
-			ctx.fillStyle="#FF0000";
+    var i = 0;
+	for	(i = 0; i !== arrayoftriangles.length; i++) {
+        if (arrayoftriangles[i][0] === 0) {
+			ctx.fillStyle = "#FF0000";
+            ctx.strokeStyle = "#FF0000";
 		} else {
-			ctx.fillStyle="#0000FF";
+			ctx.fillStyle = "#0000FF";
+            ctx.strokeStyle = "#0000FF";
 		}
-		ctx.lineWidth="5";
-		ctx.strokeStyle="green";
+		//ctx.lineWidth = "0.25";
+		ctx.beginPath();
 		//console.log('1-',x1,'-',y1);
-		ctx.moveTo(x1,y1);
-		x1=translatex(arrayoftriangles[i][2].re);
-		y1=translatey(arrayoftriangles[i][2].im);
+        var x1 = translatex(arrayoftriangles[i][1].re);
+		var y1 = translatey(arrayoftriangles[i][1].im);
+		ctx.moveTo(x1, y1);
+		x1 = translatex(arrayoftriangles[i][2].re);
+		y1 = translatey(arrayoftriangles[i][2].im);
 		//console.log('2-',x1,y1);
-		ctx.lineTo(x1,y1);
-		x1=translatex(arrayoftriangles[i][3].re);
-		y1=translatey(arrayoftriangles[i][3].im);
+		ctx.lineTo(x1, y1);
+		x1 = translatex(arrayoftriangles[i][3].re);
+		y1 = translatey(arrayoftriangles[i][3].im);
 		//console.log('3-',x1,y1);
-		ctx.lineTo(x1,y1);
+		ctx.lineTo(x1, y1);
+        ctx.stroke();
 		ctx.closePath();
-		ctx.stroke();
 		ctx.fill();
 	}
 }
 
-function translatex (x) {return (x+1)*(500-1)/2 ; } 
-
-function translatey (y) {return (500-1)-(y+1)*(500-1)/2;}
-
-function subdivide (arrayoftriangles) {
-	console.log('En subdivide')
-	triangles2=[];
-    counter=0;
-	for	(i = 0; i < arrayoftriangles.length; i++) {
-		A=math.complex(arrayoftriangles[i][1]); 
-		B=math.complex(arrayoftriangles[i][2]);
-		C=math.complex(arrayoftriangles[i][3]);
-		if (arrayoftriangles[i][0] === 0) {
-			P=math.complex(0,0);
+function subdivide(arrayoftriangles) {
+	console.log('En subdivide');
+	var triangles2 = [];
+    var counter = 0;
+    var i = 0;
+	for	(i = 0; i !== arrayoftriangles.length; i++) {
+        var color = arrayoftriangles[i][0];
+        var A = math.complex(arrayoftriangles[i][1].re, arrayoftriangles[i][1].im);
+		var B = math.complex(arrayoftriangles[i][2].re, arrayoftriangles[i][2].im);
+		var C = math.complex(arrayoftriangles[i][3].re, arrayoftriangles[i][3].im);
+		if (color === 0) {
+			var P = math.complex(0, 0);
 			//P=math.add(A,(math.substract(B,A)))/goldenRatio;
-			P=math.add(P,A);
-            P=math.subtract(B,A);
-			P=math.divide(P,goldenRatio);
-			triangles2[counter]=[0,C,P,B];
-            counter=counter+1;
-			triangles2[counter]=[1,P,C,A];
+            P.re =  (B.re - A.re);
+            P.im =  (B.im - A.im);
+            P = math.divide(P, goldenRatio);
+            P = math.add(P, A);
+			triangles2[counter] = [0, C, P, B];
+            //console.log(counter,'-',triangles2[counter]);
+            counter = counter + 1;
+			triangles2[counter] = [1, P, C, A];
+            //console.log(counter,'-',triangles2[counter]);
+            counter = counter + 1;
 		} else {
-			Q=math.complex(0,0);
-			R=math.complex(0,0);
-			//Q=(B+(A-B))/goldenRatio;
-            console.log('------------');
-            console.log(A,B,C);
-			//Q=math.substract(A,B);
-            Q.re=A.re-B.re;
-            Q.im=A.im-B.im;
-			Q=math.add(Q,B);
-			Q=math.divide(Q,goldenRatio);
-			//R=(B+(C-B))/goldenRatio;
-			//R=math.substract(C,B);
-            R.re=C.re-B.re;
-            R.im=C.im-B.im;
-			R=math.add(R,B);
-			R=math.divide(R,goldenRatio);
-            counter=counter+1;
-			triangles2[counter]=[1,R,C,A];
-            counter=counter+1;
-            triangles2[counter]=[1,Q,R,B];
-            counter=counter+1;
-            triangles2[counter]=[0,R,Q,A];
+			var Q = math.complex(0, 0);
+			var R = math.complex(0, 0);
+            Q.re = A.re - B.re;
+            Q.im = A.im - B.im;
+			Q = math.divide(Q, goldenRatio);
+            Q = math.add(Q, B);
+            R.re = C.re - B.re;
+            R.im = C.im - B.im;
+			R = math.divide(R, goldenRatio);
+            R = math.add(R, B);
+			triangles2[counter] = [1, R, C, A];
+            counter = counter + 1;
+            triangles2[counter] = [1, Q, R, B];
+            counter = counter + 1;
+            triangles2[counter] = [0, R, Q, A];
+            counter = counter + 1;
 		}
 	}
-	console.log('Result:',triangles2);
-return;
+	//console.log('Result:',triangles2);
+    return triangles2;
 
 }
 
-function PaintLines() {
+function PaintLines(arrayoftriangles) {
+    console.log('En PaintLines');
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.strokeStyle = 'black';
-    for	(i = 0; i < triangles.length; i++) {
-        x1=translatex(triangles[i][3].re);
-		y1=translatey(triangles[i][3].im);
-        ctx.moveTo(x1,y1);
-        x1=translatex(triangles[i][1].re);
-		y1=translatey(triangles[i][1].im);
-        ctx.lineTo(x1,y1);
-        x1=translatex(triangles[i][2].re);
-		y1=translatey(triangles[i][2].im);
-        ctx.lineTo(x1,y1);
-        ctx.stroke();
+    ctx.lineWidth = 0.55;
+    var i = 0;
+    console.log('Pintando ',arrayoftriangles.length);
+    for	(i = 0; i !== arrayoftriangles.length; i++) {
+        ctx.moveTo(translatex(arrayoftriangles[i][3].re), translatey(arrayoftriangles[i][3].im));
+        ctx.lineTo(translatex(arrayoftriangles[i][1].re), translatey(arrayoftriangles[i][1].im));
+        ctx.lineTo(translatex(arrayoftriangles[i][2].re), translatey(arrayoftriangles[i][2].im));
+        if (i % (arrayoftriangles.length/10) == 0 ) {
+            //ctx.stroke();
+            console.log('Pintando');
+            }
     }
+    ctx.stroke();
 }

@@ -1,29 +1,30 @@
 <html>
 <head>
-	<title>Penrose canvas</title>
-	<script src="penrose.js"></script>
+<title>Penrose canvas</title>
+<script src="penrose.js"></script>
 <script src="math.min.js"></script>
 <script>
 window.onload = function(){
 	elemento = document.getElementById('micanvas');
 	if (elemento && elemento.getContext) {
 		ctx = elemento.getContext('2d');}
-		triangles= [];
-        triangles2=[];
+        ctx.clearRect( 0 , 0 , ctx.width, ctx.height );
+		triangles = [];
+        triangles2 = [];
 		goldenRatio = (1 + math.sqrt(5)) / 2;
-		numerodetriangulos=10;
+		numerodetriangulos = 10;
 		CreateWheel();
         PaintTriangles(triangles);
-		subdivisions=8;
+		var subdivisions=4;
 		k=0;
 		while (k != subdivisions) {
             console.log('k es:',k);
-			subdivide(triangles);
-            triangles=triangles2;
+			triangles=subdivide(triangles);
 			k=k+1;
 		}
 		PaintTriangles(triangles);
-        PaintLines();
+        PaintLines(triangles);
+        console.log('Fin');
 }
 </script>
 </head>
