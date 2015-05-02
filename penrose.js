@@ -33,21 +33,23 @@ function CreateWheel() {
 		//console.log(i,'-',triangles[i]);
 	}
 }
-function translatex(x) { return ((x + 1) * (1000 - 1) / 2); } //500=canvas/2
+function translatex(x) { return ((x + 1) * (xres - 1) / 2); } //500=canvas/2
 
-function translatey(y) {return (1000 - 1) - (y + 1) * (1000 - 1) / 2; }
+function translatey(y) {return (yres - 1) - (y + 1) * (yres - 1) / 2; }
 
 function PaintTriangles(arrayoftriangles) {
 	console.log('En painttriangles');
+    var color1 = '#'+Math.floor(Math.random()*8388607).toString(16);
+    var color2 = '#'+Math.floor((Math.random()*8388607)+8388607).toString(16);
     //ctx.lineWidth = 0.25;
     var i = 0;
 	for	(i = 0; i !== arrayoftriangles.length; i++) {
         if (arrayoftriangles[i][0] === 0) {
-			ctx.fillStyle = "#FF0000";
-            ctx.strokeStyle = "#FF0000";
+			ctx.fillStyle = color1; //"#FF0000";
+            ctx.strokeStyle = color1; //"#FF0000";
 		} else {
-			ctx.fillStyle = "#0000FF";
-            ctx.strokeStyle = "#0000FF";
+			ctx.fillStyle = color2; //"#0000FF";
+            ctx.strokeStyle = color2; //"#0000FF";
 		}
 		//ctx.lineWidth = "0.25";
 		ctx.beginPath();
