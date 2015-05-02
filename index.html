@@ -1,8 +1,19 @@
+<!DOCTYPE html> 
 <html>
 <head>
 <title>Penrose canvas</title>
 <script src="penrose.js"></script>
 <script src="math.min.js"></script>
+<style type="text/css">
+  body {
+    margin: 0; padding: 0; border: 0; outline: 0;
+    color : white;
+    background-color: black;
+    padding:0; margin:0; line-height:100%;
+  }
+    general {
+        vertical-align: top; }
+  </style>
 <script>
 function foo(){
 	elemento = document.getElementById('micanvas');
@@ -41,11 +52,13 @@ function foo(){
 </head>
 
 <body>
+<div id="general">
 Subdivisiones <input type="text" name="subdivisions" value="6" size="1" type="number" width="40">
 X resolution <input type="text" name="xres" value="1000" size="4" type="number">
-Y resolution <input type="text" name="yres" value="1000" size="4" type="number">
-<input type="submit" value="Submit" onclick="return foo();"/>
-<canvas id="micanvas" width="1000" height="1000">
+Y resolution <input type="text" name="yres" value="1000" size="4" type="number"> 
+<input type="submit" value="Submit" onclick="return foo();">
+</div>
+<canvas id="micanvas" width="1000" height="1000" align="bottom" >
 Este texto se muestra para los navegadores no compatibles con canvas.
 Por favor, utiliza Firefox, Chrome, Safari u Opera.
 </canvas>

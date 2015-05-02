@@ -123,7 +123,7 @@ function PaintLines(arrayoftriangles) {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = 1.55;
+    ctx.lineWidth = 0.50
     var i = 0;
     console.log('Pintando ',arrayoftriangles.length);
     for	(i = 0; i !== arrayoftriangles.length-1; i++) {
@@ -135,7 +135,7 @@ function PaintLines(arrayoftriangles) {
         ctx.stroke();
         if (i % (arrayoftriangles.length/10) == 0 ) {
             
-            console.log('Pintando');
+            //console.log('Pintando');
             }
     }
     //ctx.stroke();
