@@ -39,6 +39,7 @@ function translatey(y) {return (1000 - 1) - (y + 1) * (1000 - 1) / 2; }
 
 function PaintTriangles(arrayoftriangles) {
 	console.log('En painttriangles');
+    //ctx.lineWidth = 0.25;
     var i = 0;
 	for	(i = 0; i !== arrayoftriangles.length; i++) {
         if (arrayoftriangles[i][0] === 0) {
@@ -120,17 +121,20 @@ function PaintLines(arrayoftriangles) {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = 0.55;
+    ctx.lineWidth = 1.55;
     var i = 0;
     console.log('Pintando ',arrayoftriangles.length);
-    for	(i = 0; i !== arrayoftriangles.length; i++) {
+    for	(i = 0; i !== arrayoftriangles.length-1; i++) {
+        ctx.beginPath();
+        ctx.closePath();
         ctx.moveTo(translatex(arrayoftriangles[i][3].re), translatey(arrayoftriangles[i][3].im));
         ctx.lineTo(translatex(arrayoftriangles[i][1].re), translatey(arrayoftriangles[i][1].im));
         ctx.lineTo(translatex(arrayoftriangles[i][2].re), translatey(arrayoftriangles[i][2].im));
+        ctx.stroke();
         if (i % (arrayoftriangles.length/10) == 0 ) {
-            //ctx.stroke();
+            
             console.log('Pintando');
             }
     }
-    ctx.stroke();
+    //ctx.stroke();
 }

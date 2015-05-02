@@ -4,7 +4,7 @@
 <script src="penrose.js"></script>
 <script src="math.min.js"></script>
 <script>
-window.onload = function(){
+function foo(){
 	elemento = document.getElementById('micanvas');
 	if (elemento && elemento.getContext) {
 		ctx = elemento.getContext('2d');}
@@ -13,9 +13,15 @@ window.onload = function(){
         triangles2 = [];
 		goldenRatio = (1 + math.sqrt(5)) / 2;
 		numerodetriangulos = 10;
+        var subdivisions = document.getElementsByName("subdivisions")[0].value;
+        if (subdivisions > 10) { 
+            subdivisions = 10; 
+        }
+        console.log('SUBDIVISIONS:',subdivisions);
 		CreateWheel();
         PaintTriangles(triangles);
-		var subdivisions=4;
+		//var subdivisions=4;
+
 		k=0;
 		while (k != subdivisions) {
             console.log('k es:',k);
@@ -27,10 +33,14 @@ window.onload = function(){
         console.log('Fin');
 }
 </script>
+
 </head>
 
 <body>
-
+      Subdivisiones<br>
+<input type="text" name="subdivisions" value="6" size="1" type="number" width="20">
+<input type="submit" value="Submit" onclick="return foo();"/>
+    <br>
 <canvas id="micanvas" width="1000" height="1000">
 Este texto se muestra para los navegadores no compatibles con canvas.
 Por favor, utiliza Firefox, Chrome, Safari u Opera.
